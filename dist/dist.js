@@ -6,7 +6,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "fs";
 import path from "path";
-import readline from "readline/promises";
+import readline from "node:readline/promises";
 
 const argv = yargs(hideBin(process.argv))
   .usage("Usage:\n\n$ npx hvb-screenshots [options]")
