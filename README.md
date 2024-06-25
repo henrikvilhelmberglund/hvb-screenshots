@@ -1,4 +1,4 @@
-Library that uses Puppeteer-core to spit out a bunch of screenshots.
+Library that uses Puppeteer-core to spit out a bunch of screenshots using different device viewport sizes, eg. mobile, tablet, PC.
 
 Made for use with `npx`/`bunx` etc.
 
