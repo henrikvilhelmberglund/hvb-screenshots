@@ -1,6 +1,6 @@
 {
   "name": "hvb-screenshots",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "bin": {
     "hvb-screenshots": "dist/dist.js"
   },
