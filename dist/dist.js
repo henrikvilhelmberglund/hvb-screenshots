@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import PCR from "puppeteer-chromium-resolver";
-import yargs, { Argv } from "yargs";
+import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "fs";
 import path from "path";
@@ -9,9 +9,6 @@ import readline from "node:readline/promises";
 
 // @ts-check
 
-/**
- * @type {Argv}
- */
 const argv = yargs(hideBin(process.argv))
   .usage("Usage:\n\n$ npx hvb-screenshots [options]")
   .options({
@@ -155,7 +152,7 @@ async function askUserToCreateFolderShort() {
 
 /**
  * This function saves screenshots in several sizes.
- * @param {Argv} argv - The command line arguments. (yargs)
+ * @param {string} argv - The command line arguments. (yargs)
  */
 export async function takeScreenshots(argv) {
   async function changeSizeAndTakeScreenshot({

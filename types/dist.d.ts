@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * This function saves screenshots in several sizes.
- * @param {Argv} argv - The command line arguments. (yargs)
+ * @param {string} argv - The command line arguments. (yargs)
  */
-export function takeScreenshots(argv: Argv): Promise<void>;
+export function takeScreenshots(argv: string): Promise<void>;
 /**
  * @typedef {Object} Viewport
  * @property {number} width - The width of the viewport.
