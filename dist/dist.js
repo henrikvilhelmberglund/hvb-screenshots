@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import puppeteer from "puppeteer-core";
 import PCR from "puppeteer-chromium-resolver";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
@@ -36,9 +35,25 @@ if (argv.help || argv.h) {
   process.exit();
 }
 
-let screenshotPath = argv?.path ?? "screenshots";
+let screenshotPath = argv.path ?? "screenshots";
 let screenshotPathInProject = path.join(process.cwd(), screenshotPath);
 
+/**
+ * @typedef {Object} Viewport
+ * @property {number} width - The width of the viewport.
+ * @property {number} height - The height of the viewport.
+ */
+
+/**
+ * @typedef {Object} Device
+ * @property {string} name - The name of the device.
+ * @property {Viewport} viewport - The viewport dimensions of the device.
+ */
+
+/**
+ * An array of devices with their viewports.
+ * @type {Device[]}
+ */
 const devices = [
   { name: "(sm) iPhone SE", viewport: { width: 320, height: 568 } },
   { name: "(sm) iPhone X", viewport: { width: 375, height: 812 } },
@@ -52,6 +67,8 @@ const devices = [
   { name: "(2xl) Large Desktop", viewport: { width: 2560, height: 1440 } },
   { name: "(2xl) 4K Display", viewport: { width: 3840, height: 2160 } },
 ];
+
+/** When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it. */
 async function askUserToCreateFolder() {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -90,6 +107,7 @@ async function askUserToCreateFolder() {
   rl.close();
 }
 
+/** When a path is passed in and the path does not yet exist, ask the user to create it. */
 async function askUserToCreateFolderShort() {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -115,6 +133,7 @@ async function askUserToCreateFolderShort() {
   rl.close();
 }
 
+/** This function saves screenshots in several sizes. */
 async function takeScreenshots(argv) {
   async function changeSizeAndTakeScreenshot({
     name,

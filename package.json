@@ -1,17 +1,15 @@
 {
   "name": "hvb-screenshots",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": {
     "hvb-screenshots": "dist/dist.js"
   },
   "dependencies": {
     "puppeteer-chromium-resolver": "^22.0.0",
-    "puppeteer-core": "^22.12.0",
     "yargs": "^17.7.2"
   },
   "description": "Library for use with npx to take screenshots of various devices sizes using puppeteer-core.",
   "main": "dist/dist.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
