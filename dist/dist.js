@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
 import PCR from "puppeteer-chromium-resolver";
-import yargs from "yargs";
+import yargs, { Argv } from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "fs";
 import path from "path";
 import readline from "node:readline/promises";
 
+// @ts-check
+
+/**
+ * @type {Argv}
+ */
 const argv = yargs(hideBin(process.argv))
   .usage("Usage:\n\n$ npx hvb-screenshots [options]")
   .options({
@@ -35,7 +40,16 @@ if (argv.help || argv.h) {
   process.exit();
 }
 
+/**
+ * Short path to the folder where the screenshots will be saved.
+ * @type {string}
+ */
 let screenshotPath = argv.path ?? "screenshots";
+
+/**
+ * Long path to the folder where the screenshots will be saved.
+ * @type {string}
+ */
 let screenshotPathInProject = path.join(process.cwd(), screenshotPath);
 
 /**
@@ -54,7 +68,7 @@ let screenshotPathInProject = path.join(process.cwd(), screenshotPath);
  * An array of devices with their viewports.
  * @type {Device[]}
  */
-const devices = [
+export const devices = [
   { name: "(sm) iPhone SE", viewport: { width: 320, height: 568 } },
   { name: "(sm) iPhone X", viewport: { width: 375, height: 812 } },
   { name: "(sm) iPhone 8 Plus", viewport: { width: 414, height: 736 } },
@@ -68,7 +82,10 @@ const devices = [
   { name: "(2xl) 4K Display", viewport: { width: 3840, height: 2160 } },
 ];
 
-/** When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it. */
+/**
+ * When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it.
+ * @returns {Promise<void>}
+ */
 async function askUserToCreateFolder() {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -107,7 +124,10 @@ async function askUserToCreateFolder() {
   rl.close();
 }
 
-/** When a path is passed in and the path does not yet exist, ask the user to create it. */
+/**
+ * When a path is passed in and the path does not yet exist, ask the user to create it.
+ * @returns {Promise<void>}
+ */
 async function askUserToCreateFolderShort() {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -133,8 +153,11 @@ async function askUserToCreateFolderShort() {
   rl.close();
 }
 
-/** This function saves screenshots in several sizes. */
-async function takeScreenshots(argv) {
+/**
+ * This function saves screenshots in several sizes.
+ * @param {Argv} argv - The command line arguments. (yargs)
+ */
+export async function takeScreenshots(argv) {
   async function changeSizeAndTakeScreenshot({
     name,
     viewport: { width, height },
