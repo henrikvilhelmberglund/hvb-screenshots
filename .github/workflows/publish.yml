@@ -16,4 +16,9 @@ jobs:
       id-token: write # The OIDC ID token is used for authentication with JSR.    
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20' # Specify the Node.js version you need
+      - run: npm install
       - run: npx jsr publish
