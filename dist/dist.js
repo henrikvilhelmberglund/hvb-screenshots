@@ -202,5 +202,4 @@ async function takeScreenshots(argv) {
 
   await browser.close();
 }
-
 takeScreenshots(argv);
