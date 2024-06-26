@@ -20,5 +20,5 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20" # Specify the Node.js version you need
-      - run: npm install
+      - run: npm ci
       - run: npx jsr publish
