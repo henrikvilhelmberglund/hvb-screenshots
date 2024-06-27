@@ -2,7 +2,7 @@
 /**
  * Arguments that can be passed to the script
  */
-interface Arguments {
+export interface Arguments {
     [x: string]: unknown;
     /**
      * Optional path to the folder where the screenshots will be saved

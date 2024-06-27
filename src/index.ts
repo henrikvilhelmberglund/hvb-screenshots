@@ -13,7 +13,7 @@ import readline from "node:readline/promises";
 /**
  * Arguments that can be passed to the script
  */
-interface Arguments {
+export interface Arguments {
   [x: string]: unknown;
   /**
    * Optional path to the folder where the screenshots will be saved
@@ -81,84 +81,89 @@ export const devices: Device[] = [
 ];
 
 /**
- * When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it.
- */
-async function askUserToCreateFolder(): Promise<void> {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  const answer = await rl.question(
-    "The screenshots folder does not exist. Do you want to create it? (y/n)\n"
-  );
-
-  if (answer.toLowerCase() === "y") {
-    let folderName = await rl.question(
-      'Enter the folder name (default is "screenshots")\n'
-    );
-
-    folderName = folderName === "" ? "screenshots" : folderName;
-
-    screenshotPath = folderName;
-    screenshotPathInProject = path.join(process.cwd(), folderName);
-
-    if (fs.existsSync(screenshotPathInProject)) {
-      const saveAnyway = await rl.question(
-        `The folder "${screenshotPath}" already exists. Save into that folder anyway? (y/n)\n`
-      );
-      if (saveAnyway !== "y") {
-        process.exit(1);
-      }
-    } else {
-      fs.mkdirSync(screenshotPathInProject, { recursive: true });
-      console.log(`The ${screenshotPath} folder has been created.`);
-    }
-  } else {
-    console.log(`The ${screenshotPath} folder was not created.`);
-    process.exit(1);
-  }
-  rl.close();
-}
-
-/**
- * When a path is passed in and the path does not yet exist, ask the user to create it.
- */
-async function askUserToCreateFolderShort(): Promise<void> {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  const answer = await rl.question(
-    "The path does not exist. Do you want to create it? (y/n)\n"
-  );
-
-  if (answer.toLowerCase() === "y") {
-    let folderName = argv.path;
-
-    if (folderName) {
-      screenshotPath = folderName;
-      screenshotPathInProject = path.join(process.cwd(), folderName);
-    }
-
-    fs.mkdirSync(screenshotPathInProject, { recursive: true });
-    console.log(`The ${screenshotPath} folder has been created.`);
-  } else {
-    console.log(`The ${screenshotPath} folder was not created.`);
-    process.exit(1);
-  }
-  rl.close();
-}
-
-/**
  * This function saves screenshots in several sizes.
  */
 export async function takeScreenshots(argv: Arguments) {
+  /**
+   * When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it.
+   */
+  async function askUserToCreateFolder(): Promise<void> {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    const answer = await rl.question(
+      "The screenshots folder does not exist. Do you want to create it? (y/n)\n"
+    );
+
+    if (answer.toLowerCase() === "y") {
+      let folderName = await rl.question(
+        'Enter the folder name (default is "screenshots")\n'
+      );
+
+      folderName = folderName === "" ? "screenshots" : folderName;
+
+      screenshotPath = folderName;
+      screenshotPathInProject = path.join(process.cwd(), folderName);
+
+      if (fs.existsSync(screenshotPathInProject)) {
+        const saveAnyway = await rl.question(
+          `The folder "${screenshotPath}" already exists. Save into that folder anyway? (y/n)\n`
+        );
+        if (saveAnyway !== "y") {
+          process.exit(1);
+        }
+      } else {
+        fs.mkdirSync(screenshotPathInProject, { recursive: true });
+        console.log(`The ${screenshotPath} folder has been created.`);
+      }
+    } else {
+      console.log(`The ${screenshotPath} folder was not created.`);
+      process.exit(1);
+    }
+    rl.close();
+  }
+
+  /**
+   * When a path is passed in and the path does not yet exist, ask the user to create it.
+   */
+  async function askUserToCreateFolderShort(): Promise<void> {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    const answer = await rl.question(
+      "The path does not exist. Do you want to create it? (y/n)\n"
+    );
+
+    if (answer.toLowerCase() === "y") {
+      let folderName = argv.path;
+
+      if (folderName) {
+        screenshotPath = folderName;
+        screenshotPathInProject = path.join(process.cwd(), folderName);
+      }
+
+      fs.mkdirSync(screenshotPathInProject, { recursive: true });
+      console.log(`The ${screenshotPath} folder has been created.`);
+    } else {
+      console.log(`The ${screenshotPath} folder was not created.`);
+      process.exit(1);
+    }
+    rl.close();
+  }
+
+  /**
+   *
+   * Changes the viewport size and takes a screenshot
+   * @param {Device} device - Device with name and viewport size
+   */
   async function changeSizeAndTakeScreenshot({
     name,
     viewport: { width, height },
-  }: Device) {
+  }: Device): Promise<void> {
     console.info("hello");
     console.info(`Taking screenshot ${width}x${height}_${name}.jpg`);
     await page.setViewport({ width, height }); // 3
@@ -171,7 +176,6 @@ export async function takeScreenshots(argv: Arguments) {
       console.error(
         "Unable to save file. Create a folder named screenshots first or pass a path using --path."
       );
-      return;
     }
   }
 

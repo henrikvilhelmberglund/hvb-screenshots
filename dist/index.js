@@ -56,70 +56,75 @@ export const devices = [
     { name: "(2xl) 4K Display", viewport: { width: 3840, height: 2160 } },
 ];
 /**
- * When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it.
- */
-function askUserToCreateFolder() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-        });
-        const answer = yield rl.question("The screenshots folder does not exist. Do you want to create it? (y/n)\n");
-        if (answer.toLowerCase() === "y") {
-            let folderName = yield rl.question('Enter the folder name (default is "screenshots")\n');
-            folderName = folderName === "" ? "screenshots" : folderName;
-            screenshotPath = folderName;
-            screenshotPathInProject = path.join(process.cwd(), folderName);
-            if (fs.existsSync(screenshotPathInProject)) {
-                const saveAnyway = yield rl.question(`The folder "${screenshotPath}" already exists. Save into that folder anyway? (y/n)\n`);
-                if (saveAnyway !== "y") {
-                    process.exit(1);
-                }
-            }
-            else {
-                fs.mkdirSync(screenshotPathInProject, { recursive: true });
-                console.log(`The ${screenshotPath} folder has been created.`);
-            }
-        }
-        else {
-            console.log(`The ${screenshotPath} folder was not created.`);
-            process.exit(1);
-        }
-        rl.close();
-    });
-}
-/**
- * When a path is passed in and the path does not yet exist, ask the user to create it.
- */
-function askUserToCreateFolderShort() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-        });
-        const answer = yield rl.question("The path does not exist. Do you want to create it? (y/n)\n");
-        if (answer.toLowerCase() === "y") {
-            let folderName = argv.path;
-            if (folderName) {
-                screenshotPath = folderName;
-                screenshotPathInProject = path.join(process.cwd(), folderName);
-            }
-            fs.mkdirSync(screenshotPathInProject, { recursive: true });
-            console.log(`The ${screenshotPath} folder has been created.`);
-        }
-        else {
-            console.log(`The ${screenshotPath} folder was not created.`);
-            process.exit(1);
-        }
-        rl.close();
-    });
-}
-/**
  * This function saves screenshots in several sizes.
  */
 export function takeScreenshots(argv) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
+        /**
+         * When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it.
+         */
+        function askUserToCreateFolder() {
+            return __awaiter(this, void 0, void 0, function* () {
+                const rl = readline.createInterface({
+                    input: process.stdin,
+                    output: process.stdout,
+                });
+                const answer = yield rl.question("The screenshots folder does not exist. Do you want to create it? (y/n)\n");
+                if (answer.toLowerCase() === "y") {
+                    let folderName = yield rl.question('Enter the folder name (default is "screenshots")\n');
+                    folderName = folderName === "" ? "screenshots" : folderName;
+                    screenshotPath = folderName;
+                    screenshotPathInProject = path.join(process.cwd(), folderName);
+                    if (fs.existsSync(screenshotPathInProject)) {
+                        const saveAnyway = yield rl.question(`The folder "${screenshotPath}" already exists. Save into that folder anyway? (y/n)\n`);
+                        if (saveAnyway !== "y") {
+                            process.exit(1);
+                        }
+                    }
+                    else {
+                        fs.mkdirSync(screenshotPathInProject, { recursive: true });
+                        console.log(`The ${screenshotPath} folder has been created.`);
+                    }
+                }
+                else {
+                    console.log(`The ${screenshotPath} folder was not created.`);
+                    process.exit(1);
+                }
+                rl.close();
+            });
+        }
+        /**
+         * When a path is passed in and the path does not yet exist, ask the user to create it.
+         */
+        function askUserToCreateFolderShort() {
+            return __awaiter(this, void 0, void 0, function* () {
+                const rl = readline.createInterface({
+                    input: process.stdin,
+                    output: process.stdout,
+                });
+                const answer = yield rl.question("The path does not exist. Do you want to create it? (y/n)\n");
+                if (answer.toLowerCase() === "y") {
+                    let folderName = argv.path;
+                    if (folderName) {
+                        screenshotPath = folderName;
+                        screenshotPathInProject = path.join(process.cwd(), folderName);
+                    }
+                    fs.mkdirSync(screenshotPathInProject, { recursive: true });
+                    console.log(`The ${screenshotPath} folder has been created.`);
+                }
+                else {
+                    console.log(`The ${screenshotPath} folder was not created.`);
+                    process.exit(1);
+                }
+                rl.close();
+            });
+        }
+        /**
+         *
+         * Changes the viewport size and takes a screenshot
+         * @param {Device} device - Device with name and viewport size
+         */
         function changeSizeAndTakeScreenshot({ name, viewport: { width, height }, }) {
             return __awaiter(this, void 0, void 0, function* () {
                 console.info("hello");
@@ -133,7 +138,6 @@ export function takeScreenshots(argv) {
                 }
                 catch (error) {
                     console.error("Unable to save file. Create a folder named screenshots first or pass a path using --path.");
-                    return;
                 }
             });
         }
