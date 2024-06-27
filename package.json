@@ -1,6 +1,6 @@
 {
   "name": "hvb-screenshots",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "bin": {
     "hvb-screenshots": "dist/index.js"
   },
@@ -9,7 +9,7 @@
     "yargs": "^17.7.2"
   },
   "description": "Library for use with npx to take screenshots of various devices sizes using puppeteer-core.",
-  "main": "dist/dist.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"

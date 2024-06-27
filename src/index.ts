@@ -30,6 +30,11 @@ export interface Arguments {
    * If not passed, will default to `false`, eg. headless
    */
   show: boolean;
+  /**
+   * Output a printed version as .pdf
+   * If not passed, will default to `false`
+   */
+  print: boolean;
 }
 
 const argv = yargs(hideBin(process.argv))
@@ -49,6 +54,11 @@ const argv = yargs(hideBin(process.argv))
     show: {
       alias: "s",
       describe: "Show the browser window",
+      type: "boolean",
+      default: false,
+    },
+    print: {
+      describe: "Output .pdf of printed page",
       type: "boolean",
       default: false,
     },

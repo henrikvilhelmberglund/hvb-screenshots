@@ -19,6 +19,11 @@ export interface Arguments {
      * If not passed, will default to `false`, eg. headless
      */
     show: boolean;
+    /**
+     * Output a printed version as .pdf
+     * If not passed, will default to `false`
+     */
+    print: boolean;
 }
 type Viewport = {
     width: number;

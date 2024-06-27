@@ -36,6 +36,11 @@ const argv = yargs(hideBin(process.argv))
         type: "boolean",
         default: false,
     },
+    print: {
+        describe: "Output .pdf of printed page",
+        type: "boolean",
+        default: false,
+    },
 })
     .help("help")
     .alias("help", "h")
