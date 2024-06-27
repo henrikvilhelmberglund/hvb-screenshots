@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "types"
-  },
-  "include": [
-    "dist/*.js"
-  ]
+    "target": "ES6",
+    "module": "Node16",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "moduleResolution": "Node16",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
 }

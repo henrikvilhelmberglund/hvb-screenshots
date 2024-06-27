@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 
 import PCR from "puppeteer-chromium-resolver";
+import { type Page } from "puppeteer-core";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "fs";
 import path from "path";
 import readline from "node:readline/promises";
 
-// @ts-check
+interface Arguments {
+  [x: string]: unknown;
+  path: string | undefined;
+  url: string;
+  show: boolean;
+}
 
 const argv = yargs(hideBin(process.argv))
   .usage("Usage:\n\n$ npx hvb-screenshots [options]")
@@ -31,41 +37,16 @@ const argv = yargs(hideBin(process.argv))
     },
   })
   .help("help")
-  .alias("help", "h").argv;
+  .alias("help", "h")
+  .parseSync();
 
-if (argv.help || argv.h) {
-  process.exit();
-}
-
-/**
- * Short path to the folder where the screenshots will be saved.
- * @type {string}
- */
 let screenshotPath = argv.path ?? "screenshots";
-
-/**
- * Long path to the folder where the screenshots will be saved.
- * @type {string}
- */
 let screenshotPathInProject = path.join(process.cwd(), screenshotPath);
 
-/**
- * @typedef {Object} Viewport
- * @property {number} width - The width of the viewport.
- * @property {number} height - The height of the viewport.
- */
+type Viewport = { width: number; height: number };
+type Device = { name: string; viewport: Viewport };
 
-/**
- * @typedef {Object} Device
- * @property {string} name - The name of the device.
- * @property {Viewport} viewport - The viewport dimensions of the device.
- */
-
-/**
- * An array of devices with their viewports.
- * @type {Device[]}
- */
-export const devices = [
+export const devices: Device[] = [
   { name: "(sm) iPhone SE", viewport: { width: 320, height: 568 } },
   { name: "(sm) iPhone X", viewport: { width: 375, height: 812 } },
   { name: "(sm) iPhone 8 Plus", viewport: { width: 414, height: 736 } },
@@ -81,9 +62,8 @@ export const devices = [
 
 /**
  * When a path is not passed in and a screenshots folder does not yet exist, ask the user to create it.
- * @returns {Promise<void>}
  */
-async function askUserToCreateFolder() {
+async function askUserToCreateFolder(): Promise<void> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -123,9 +103,8 @@ async function askUserToCreateFolder() {
 
 /**
  * When a path is passed in and the path does not yet exist, ask the user to create it.
- * @returns {Promise<void>}
  */
-async function askUserToCreateFolderShort() {
+async function askUserToCreateFolderShort(): Promise<void> {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -138,8 +117,10 @@ async function askUserToCreateFolderShort() {
   if (answer.toLowerCase() === "y") {
     let folderName = argv.path;
 
-    screenshotPath = folderName;
-    screenshotPathInProject = path.join(process.cwd(), folderName);
+    if (folderName) {
+      screenshotPath = folderName;
+      screenshotPathInProject = path.join(process.cwd(), folderName);
+    }
 
     fs.mkdirSync(screenshotPathInProject, { recursive: true });
     console.log(`The ${screenshotPath} folder has been created.`);
@@ -152,13 +133,13 @@ async function askUserToCreateFolderShort() {
 
 /**
  * This function saves screenshots in several sizes.
- * @param {string} argv - The command line arguments. (yargs)
  */
-export async function takeScreenshots(argv) {
+export async function takeScreenshots(argv: Arguments) {
   async function changeSizeAndTakeScreenshot({
     name,
     viewport: { width, height },
-  }) {
+  }: Device) {
+    console.info("hello");
     console.info(`Taking screenshot ${width}x${height}_${name}.jpg`);
     await page.setViewport({ width, height }); // 3
     try {
@@ -189,11 +170,11 @@ export async function takeScreenshots(argv) {
       args: ["--no-sandbox", "--hide-scrollbars"],
       executablePath: stats.executablePath,
     })
-    .catch(function (error) {
+    .catch(function (error: Error) {
       console.log(error);
     });
 
-  let page;
+  let page: Page;
 
   if (argv.show) {
     [page] = await browser.pages();
@@ -222,4 +203,5 @@ export async function takeScreenshots(argv) {
 
   await browser.close();
 }
+
 takeScreenshots(argv);

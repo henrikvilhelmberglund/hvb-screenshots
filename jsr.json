@@ -1,5 +1,5 @@
 {
   "name": "@hvb/hvb-screenshots",
-  "version": "0.0.5",
-  "exports": "./dist/dist.js"
+  "version": "0.0.6",
+  "exports": "./src/index.ts"
 }

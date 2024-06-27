@@ -1,8 +1,8 @@
 {
   "name": "hvb-screenshots",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "bin": {
-    "hvb-screenshots": "dist/dist.js"
+    "hvb-screenshots": "dist/index.js"
   },
   "dependencies": {
     "puppeteer-chromium-resolver": "^22.0.0",
@@ -11,7 +11,8 @@
   "description": "Library for use with npx to take screenshots of various devices sizes using puppeteer-core.",
   "main": "dist/dist.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,11 @@
   "bugs": {
     "url": "https://github.com/henrikvilhelmberglund/hvb-screenshots/issues"
   },
-  "homepage": "https://github.com/henrikvilhelmberglund/hvb-screenshots#readme"
+  "homepage": "https://github.com/henrikvilhelmberglund/hvb-screenshots#readme",
+  "devDependencies": {
+    "@types/yargs": "^17.0.32",
+    "puppeteer-core": "^22.12.1",
+    "typescript": "^5.5.2"
+  },
+  "type": "module"
 }
