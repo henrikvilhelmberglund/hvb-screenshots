@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
+// @ts-ignore
 import PCR from "puppeteer-chromium-resolver";
+
 import { type Page } from "puppeteer-core";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";

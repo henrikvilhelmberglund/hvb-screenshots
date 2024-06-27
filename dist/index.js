@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
+// @ts-ignore
 import PCR from "puppeteer-chromium-resolver";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
