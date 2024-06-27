@@ -132,7 +132,6 @@ export function takeScreenshots(argv) {
          */
         function changeSizeAndTakeScreenshot({ name, viewport: { width, height }, }) {
             return __awaiter(this, void 0, void 0, function* () {
-                console.info("hello");
                 console.info(`Taking screenshot ${width}x${height}_${name}.jpg`);
                 yield page.setViewport({ width, height }); // 3
                 try {
