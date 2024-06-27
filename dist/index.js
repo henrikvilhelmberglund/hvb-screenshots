@@ -118,10 +118,10 @@ function askUserToCreateFolderShort() {
  * This function saves screenshots in several sizes.
  */
 export function takeScreenshots(argv) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        var _a;
-        function changeSizeAndTakeScreenshot(_a) {
-            return __awaiter(this, arguments, void 0, function* ({ name, viewport: { width, height }, }) {
+        function changeSizeAndTakeScreenshot({ name, viewport: { width, height }, }) {
+            return __awaiter(this, void 0, void 0, function* () {
                 console.info("hello");
                 console.info(`Taking screenshot ${width}x${height}_${name}.jpg`);
                 yield page.setViewport({ width, height }); // 3
