@@ -174,7 +174,6 @@ export async function takeScreenshots(argv: Arguments) {
     name,
     viewport: { width, height },
   }: Device): Promise<void> {
-    console.info("hello");
     console.info(`Taking screenshot ${width}x${height}_${name}.jpg`);
     await page.setViewport({ width, height }); // 3
     try {
